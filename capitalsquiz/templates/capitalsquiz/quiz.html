@@ -1,0 +1,82 @@
+{%extends 'capitalsquiz/base.html'%} {% load static %}{%block content%}
+<style>
+    .quiz_class{
+        display:flex;
+        align-items:center;
+        flex-direction:column;
+        justify-content:center;
+        padding:2rem;
+    }
+    .btn-primary{
+        padding:0.8rem;
+    }
+    .actual_div{
+        display:none;
+    }
+    .country-div{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom: 10px;
+    padding: 5px;
+    color: black;
+    text-align: center;
+    }
+    .country{
+    background-color:#e0cdee;
+    min-width:3rem;
+    width:8rem;
+    padding:1rem;
+    }
+</style>
+<div class="container-fluid">
+    <div class="initial_div"id="initial_div">
+        <div class="header text-center mt-5">
+            <h2>Hii Sam ,Get ready for Quiz</h2>
+        </div>
+        <div class="quiz_class">
+            <button class="btn btn-primary" type="button" onclick = "displayQuizDiv()">Start Quiz</button>
+        </div>
+    </div>
+    <div class="actual_div mt-5 mb-2 pb-2" id="actual_div">
+        <h3 class="text-center">Test begins Now!</h3>
+        <br>
+        <div class="country-div">
+            <div class="country btn">{{country}}</div>  
+        </div>
+        <div class="quiz_class">
+            <input type="text" class="form-control-lg" id="capital" placeholder="Enter the Capital">
+            <div class="mt-2">
+                <button class="btn btn-primary" type="submit" onclick = "submitResults()">Submit</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script>
+    // global variable 
+    country = "{{country}}"
+    function displayQuizDiv(){
+        $('#initial_div').css('display','none');
+        $('#actual_div').css('display','block');
+    }
+    function submitResults(){
+        console.log(country)
+        capital_input = $('#capital').val()
+        $.ajax({
+            url:`/ajax/validate?country=${country}&&capital_input=${capital_input}`,
+            success:function(data){
+                console.log(data.message)
+                if(data.correct == true)
+                    swal("Good job!", data.message, "success");
+                else
+                    swal('Bad luck!!',data.message,'error');
+
+            },
+            error:function(error){
+                console.log(error)
+            }
+        })
+    }
+</script>
+{% endblock %}
