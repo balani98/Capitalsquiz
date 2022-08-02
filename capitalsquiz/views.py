@@ -4,8 +4,9 @@ from django.shortcuts import render
 import requests
 import random
 import json
+URL = 'https://countriesnow.space/api/v0.1/countries/capital'
 def capitalsquiz(request):
-    complete_data = requests.get('https://countriesnow.space/api/v0.1/countries/capital').json()
+    complete_data = requests.get(URL).json()
     countries_data = complete_data['data']
     countries_list = []
     for country in countries_data:
@@ -19,7 +20,7 @@ def validateCapital(request):
         context = {}
         country_name = request.GET.get('country')
         capital_input = request.GET.get('capital_input')
-        complete_data = requests.get('https://countriesnow.space/api/v0.1/countries/capital').json()
+        complete_data = requests.get(URL).json()
         countries_data_dict = complete_data['data']
         # filtering the countires data 
         country_data_output_dict = [x for x in countries_data_dict if x['name'] == country_name]
