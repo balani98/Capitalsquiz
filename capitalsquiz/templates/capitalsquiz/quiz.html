@@ -70,7 +70,10 @@
                 if(data.correct == true)
                     swal("Good job!", data.message, "success");
                 else
-                    swal('Bad luck!!',data.message,'error');
+                    swal('Bad luck!!',data.message,'error').then(
+                        ()=>{
+                            swal('Correct answer is '+data.correct_answer)
+                        });
 
             },
             error:function(error){

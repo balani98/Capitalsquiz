@@ -28,9 +28,11 @@ def validateCapital(request):
         if country_data['capital'].lower() == capital_input.lower() :
             context['message'] = 'Great !!! That is correct'
             context['correct'] = True  
+            context['correct_answer'] = country_data['capital']
         else:
             context['message'] = 'Oops !!! That is incorrect'
             context['correct'] = False
+            context['correct_answer'] = country_data['capital']
         return JsonResponse(context,status=200)
     except Exception as error:
         return JsonResponse(str(error),status=500)
